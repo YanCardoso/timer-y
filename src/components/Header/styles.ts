@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const HeaderConteiner = styled.header`
+export const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,6 +23,10 @@ export const HeaderConteiner = styled.header`
 
       &:hover {
         border-bottom-color: ${(props) => props.theme['green-500']};
+        color: ${(props) => props.theme['green-500']};
+      }
+
+      &.active {
         color: ${(props) => props.theme['green-500']};
       }
     }
