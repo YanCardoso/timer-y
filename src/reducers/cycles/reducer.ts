@@ -1,4 +1,6 @@
-interface Cycle {
+import { ActionTypes } from './actions'
+
+export interface Cycle {
   id: string
   task: string
   minutesAmount: number
@@ -11,28 +13,23 @@ interface CyclesStateProps {
   cycles: Cycle[]
   activityCycleId: string | null
 }
-export enum ActionTypes {
-  // eslint-disable-next-line no-unused-vars
-  CREATE_NEW_CYCLE = 'CREATE_NEW_CYCLE',
-  // eslint-disable-next-line no-unused-vars
-  STOPPED_CURRENT_CYCLE = 'STOPPED_CURRENT_CYCLE',
-  // eslint-disable-next-line no-unused-vars
-  MARK_CURRENT_CYCLE_AS_COMPLETED = 'MARK_CURRENT_CYCLE_AS_COMPLETE',
-}
 
 export function cyclesReducer(state: CyclesStateProps, action: any) {
   switch (action.type) {
-    case ActionTypes.CREATE_NEW_CYCLE:
-      return {
+    case ActionTypes.CREATE_NEW_CYCLE: {
+      const cycleBase = {
         ...state,
         cycles: [...state.cycles, action.payload.newCycle],
         activityCycleId: action.payload.newCycle.id,
       }
+      return cycleBase
+    }
+
     case ActionTypes.STOPPED_CURRENT_CYCLE:
       return {
         ...state,
         cycles: state.cycles.map((cycle) => {
-          if (cycle.id === action.payload.activityCycleId) {
+          if (cycle.id === state.activityCycleId) {
             return { ...cycle, interruptDate: new Date() }
           } else {
             return cycle
@@ -44,7 +41,7 @@ export function cyclesReducer(state: CyclesStateProps, action: any) {
       return {
         ...state,
         cycles: state.cycles.map((cycle) => {
-          if (cycle.id === action.payload.activityCycleId) {
+          if (cycle.id === state.activityCycleId) {
             return { ...cycle, completedDate: new Date() }
           } else {
             return cycle
