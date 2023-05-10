@@ -9,17 +9,17 @@ export enum ActionTypes {
   MARK_CURRENT_CYCLE_AS_COMPLETED = 'MARK_CURRENT_CYCLE_AS_COMPLETE',
 }
 
-export function addNewCycleAction(newCycle: Cycle) {
+export function createNewCycleAction(newCycle: Cycle) {
   return { type: ActionTypes.CREATE_NEW_CYCLE, payload: { newCycle } }
 }
 
-export function markNewCycleAction() {
+export function markCurrentCycleAsCompletedAction() {
   return {
     type: ActionTypes.MARK_CURRENT_CYCLE_AS_COMPLETED,
   }
 }
 
-export function stopCurrentCycleAction() {
+export function stoppedCurrentCycleAction() {
   return {
     type: ActionTypes.STOPPED_CURRENT_CYCLE,
   }

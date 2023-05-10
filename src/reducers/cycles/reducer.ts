@@ -1,4 +1,3 @@
-import { produce } from 'immer'
 import { ActionTypes } from './actions'
 
 export interface Cycle {
@@ -17,39 +16,39 @@ interface CyclesStateProps {
 
 export function cyclesReducer(state: CyclesStateProps, action: any) {
   switch (action.type) {
-    case ActionTypes.CREATE_NEW_CYCLE:
-      return produce(state, (draft) => {
-        draft.cycles.push(action.payload.newCycle)
-        draft.activityCycleId = action.payload.newCycle.id
-      })
-    case ActionTypes.STOPPED_CURRENT_CYCLE: {
-      const currentCycleIndex = state.cycles.findIndex((cycle) => {
-        return cycle.id === state.activityCycleId
-      })
-
-      if (currentCycleIndex > 0) {
-        return state
+    case ActionTypes.CREATE_NEW_CYCLE: {
+      const cycleBase = {
+        ...state,
+        cycles: [...state.cycles, action.payload.newCycle],
+        activityCycleId: action.payload.newCycle.id,
       }
-
-      return produce(state, (draft) => {
-        draft.activityCycleId = null
-        draft.cycles[currentCycleIndex].interruptDate = new Date()
-      })
+      return cycleBase
     }
-    case ActionTypes.MARK_CURRENT_CYCLE_AS_COMPLETED: {
-      const currentCycleIndex = state.cycles.findIndex((cycle) => {
-        return cycle.id === state.activityCycleId
-      })
 
-      if (currentCycleIndex > 0) {
-        return state
+    case ActionTypes.STOPPED_CURRENT_CYCLE:
+      return {
+        ...state,
+        cycles: state.cycles.map((cycle) => {
+          if (cycle.id === state.activityCycleId) {
+            return { ...cycle, interruptDate: new Date() }
+          } else {
+            return cycle
+          }
+        }),
+        activityCycleId: null,
       }
-
-      return produce(state, (draft) => {
-        draft.activityCycleId = null
-        draft.cycles[currentCycleIndex].completedDate = new Date()
-      })
-    }
+    case ActionTypes.MARK_CURRENT_CYCLE_AS_COMPLETED:
+      return {
+        ...state,
+        cycles: state.cycles.map((cycle) => {
+          if (cycle.id === state.activityCycleId) {
+            return { ...cycle, completedDate: new Date() }
+          } else {
+            return cycle
+          }
+        }),
+        activityCycleId: null,
+      }
     default:
       return state
   }
