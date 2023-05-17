@@ -1,5 +1,5 @@
 {
-  "homepage": "https://yancardoso.github.io/ig-timer",
+  "homepage": "https://yancardoso.github.io/timer-y/",
   "name": "ignite-timer",
   "private": true,
   "version": "0.0.0",
@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx,"
   },
