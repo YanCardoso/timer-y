@@ -1,15 +1,16 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { Router } from './components/Router'
 import { CyclesContextProvider } from './contexts/CyclesContext'
 import { GlobalStyle } from './styles/global'
 import { defaultTheme } from './styles/themes/default'
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/timer-y">
       <ThemeProvider theme={defaultTheme}>
         <CyclesContextProvider>
-          <h1>testes</h1>
+          <Router />
         </CyclesContextProvider>
         <GlobalStyle />
       </ThemeProvider>
